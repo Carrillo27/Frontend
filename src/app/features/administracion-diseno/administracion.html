@@ -1,0 +1,8 @@
+<nav class="tabs" aria-label="Catálogos de administración">
+  @for (tab of tabs; track tab.path) {
+    <a [routerLink]="tab.path" routerLinkActive="active" ariaCurrentWhenActive="page">
+      {{ tab.label }}
+    </a>
+  }
+</nav>
+<router-outlet />

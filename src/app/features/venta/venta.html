@@ -1,0 +1,229 @@
+<div class="titulo-fila">
+  <h1>Renta de cómputo y caja</h1>
+  <span class="muted">Importes en MXN</span>
+</div>
+<nav class="enlaces-modulos">
+  <a routerLink="/caja" aria-current="page">Caja</a
+  ><a routerLink="/reportes">Reportes y corte de caja</a><a routerLink="/productos">Productos</a>
+</nav>
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (recibo(); as r) {
+  <p class="exito" role="status">
+    Venta #{{ r.idVenta }} registrada. Total: {{ r.total | currency: 'MXN' : 'symbol-narrow' }} ·
+    Recibido: {{ r.recibido | currency: 'MXN' : 'symbol-narrow' }} · Cambio:
+    {{ r.cambio | currency: 'MXN' : 'symbol-narrow' }}
+  </p>
+}
+<div class="distribucion-caja">
+  <aside class="panel">
+    <h2>Equipo</h2>
+    <p class="descripcion-panel">Vista de referencia · Rentas pendientes</p>
+    <div class="equipos-grid">
+      @for (n of equipos; track n) {
+        <button
+          class="equipo"
+          disabled
+          [class.en-uso]="n === 2 || n === 3"
+          [class.sin-servicio]="n === 8"
+        >
+          <span class="equipo-nombre"><i class="monitor"></i>PC 0{{ n }}</span
+          ><span>{{ n === 8 ? 'Sin servicio' : n === 2 || n === 3 ? 'En uso' : 'Disponible' }}</span
+          ><small>Ejemplo visual</small>
+        </button>
+      }
+    </div>
+    <p class="nota-panel">La asignación de equipos se implementará en el módulo de rentas.</p>
+  </aside>
+  <section class="panel panel-ticket">
+    <div class="cabecera-ticket">
+      <h2>Caja</h2>
+      <span class="ticket-activo">t1</span
+      ><button class="ticket-pendiente" disabled title="Segundo ticket pendiente">t2</button
+      ><span class="folio-ticket">Ticket actual</span>
+    </div>
+    <div class="buscador">
+      <div class="busqueda-contenedor">
+        <span class="icono-busqueda">⌕</span
+        ><input
+          class="entrada"
+          aria-label="Buscar producto por nombre o código"
+          placeholder="Buscar producto por nombre o código"
+          [(ngModel)]="busqueda"
+          (ngModelChange)="programar()"
+          (keydown.enter)="buscar(true)"
+          [disabled]="auth.demo() || ocupado()"
+        />
+        @if (resultados().length) {
+          <div class="sugerencias">
+            @for (p of resultados(); track p.idProducto) {
+              <div class="sugerencia">
+                <div class="sugerencia-info">
+                  <strong>{{ p.nombre }}</strong
+                  ><small
+                    >{{ p.codigoBarras }} · Stock {{ p.stockActual }} ·
+                    {{ p.precioVenta | currency: 'MXN' : 'symbol-narrow' }}</small
+                  >
+                </div>
+                <button class="boton" [disabled]="p.stockActual < 1" (click)="agregar(p)">
+                  Agregar
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <button
+        class="boton boton-contorno"
+        [disabled]="auth.demo() || buscando()"
+        (click)="buscar()"
+      >
+        {{ buscando() ? 'Buscando…' : 'Buscar' }}
+      </button>
+    </div>
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Cant.</th>
+            <th>Descripción</th>
+            <th>Precio por unidad</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (l of ticket.lineas(); track l.producto.idProducto) {
+            <tr>
+              <td>
+                <input
+                  class="cantidad"
+                  type="number"
+                  min="1"
+                  [max]="l.producto.stockActual"
+                  step="1"
+                  [value]="l.cantidad"
+                  (change)="cantidad(l.producto.idProducto, $event)"
+                  [disabled]="ocupado()"
+                  [attr.aria-label]="'Cantidad de ' + l.producto.nombre"
+                />
+              </td>
+              <td>
+                {{ l.producto.nombre
+                }}<small class="stock-disponible">Disponibles: {{ l.producto.stockActual }}</small>
+              </td>
+              <td>{{ l.producto.precioVenta | currency: 'MXN' : 'symbol-narrow' }}</td>
+              <td>
+                <strong>{{
+                  l.producto.precioVenta * l.cantidad | currency: 'MXN' : 'symbol-narrow'
+                }}</strong>
+              </td>
+              <td>
+                <button
+                  class="quitar-linea"
+                  (click)="ticket.quitar(l.producto.idProducto)"
+                  [disabled]="ocupado()"
+                  [attr.aria-label]="'Quitar ' + l.producto.nombre"
+                >
+                  ×
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      @if (!ticket.lineas().length) {
+        <div class="vacio">
+          <span class="icono-ticket">▤</span><strong>Tu ticket está vacío</strong>
+          <p>Busca un producto por nombre o escanea su código.</p>
+        </div>
+      }
+    </div>
+    <div class="resumen-ticket">{{ ticket.lineas().length }} conceptos en el ticket</div>
+    <div class="acciones-ticket">
+      <button
+        class="boton boton-cancelar"
+        [disabled]="!ticket.lineas().length || ocupado()"
+        (click)="cancelar()"
+      >
+        Cancelar ticket
+      </button>
+    </div>
+  </section>
+  <aside class="columna-derecha">
+    <section class="panel">
+      <h2>Servicios</h2>
+      <p class="descripcion-panel">Servicios de ejemplo · Próximamente</p>
+      <button class="servicio" disabled>
+        <strong>Copia <small>B/N</small></strong
+        ><span>Carta</span><b>$1.00</b></button
+      ><button class="servicio" disabled>
+        <strong>Impresión <small class="color">Color</small></strong
+        ><span>Carta · Doble cara</span><b>$6.00</b></button
+      ><button class="servicio" disabled>
+        <strong>Impresión <small>B/N</small></strong
+        ><span>Oficio</span><b>$2.00</b>
+      </button>
+      <p class="nota-panel">El cobro de servicios se habilitará con su catálogo.</p>
+    </section>
+    <section class="panel pago">
+      <div class="importe">
+        <span>Subtotal</span><span>{{ ticket.total() | currency: 'MXN' : 'symbol-narrow' }}</span>
+      </div>
+      <div class="importe total">
+        <strong>Total a pagar</strong
+        ><strong>{{ ticket.total() | currency: 'MXN' : 'symbol-narrow' }}</strong>
+      </div>
+      <label for="metodo">Método de pago</label
+      ><select id="metodo" disabled>
+        <option>En efectivo</option></select
+      ><button
+        class="boton cobrar"
+        (click)="abrirCobro()"
+        [disabled]="auth.demo() || !ticket.lineas().length || ocupado()"
+      >
+        Cobrar →
+      </button>
+    </section>
+  </aside>
+</div>
+<app-modal #cobro titulo="Cobrar venta" [bloqueado]="ocupado()"
+  ><form (ngSubmit)="cobrar()">
+    <p>
+      Total a pagar: <strong>{{ ticket.total() | currency: 'MXN' : 'symbol-narrow' }}</strong>
+    </p>
+    <label class="campo"
+      >Efectivo recibido (MXN)<input
+        type="number"
+        name="recibido"
+        [(ngModel)]="recibido"
+        [min]="ticket.total()"
+        step="0.01"
+        required
+        [disabled]="ocupado()"
+    /></label>
+    <p>
+      Cambio: <strong>{{ cambio() | currency: 'MXN' : 'symbol-narrow' }}</strong>
+    </p>
+    @if (errorCobro()) {
+      <p role="alert" class="error">{{ errorCobro() }}</p>
+    }
+    <div class="acciones">
+      <button
+        type="button"
+        class="boton boton-contorno"
+        (click)="cobro.cerrar()"
+        [disabled]="ocupado()"
+      >
+        Cancelar</button
+      ><button
+        class="boton"
+        type="submit"
+        [disabled]="ocupado() || recibido === null || cambio() < 0"
+      >
+        {{ ocupado() ? 'Registrando…' : 'Confirmar cobro' }}
+      </button>
+    </div>
+  </form></app-modal
+>

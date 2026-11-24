@@ -1,0 +1,111 @@
+<div class="page-title">
+  <h1>Reportes de ventas / Corte de caja</h1>
+  <p>Consulta ventas por periodo y revisa su detalle.</p>
+</div>
+<form class="catalog-panel filters" (ngSubmit)="buscar()">
+  <button type="button" class="boton boton-contorno" (click)="hoy()">Hoy</button
+  ><label class="field">Inicio<input type="date" name="inicio" [(ngModel)]="inicio" /></label
+  ><label class="field">Fin<input type="date" name="fin" [(ngModel)]="fin" /></label
+  ><button class="boton">⌕ Buscar</button>
+</form>
+@if (error) {
+  <p role="alert" class="error">{{ error }}</p>
+}
+<div class="stats">
+  <section class="catalog-panel">
+    <small>Ingreso total</small>
+    <h2>{{ ingreso | currency: 'MXN' : 'symbol-narrow' }}</h2>
+  </section>
+  <section class="catalog-panel">
+    <small>Total de tickets</small>
+    <h2>{{ resultados.length }}</h2>
+  </section>
+  <section class="catalog-panel">
+    <small>Ganancia de muestra</small>
+    <h2>{{ ganancia | currency: 'MXN' : 'symbol-narrow' }}</h2>
+  </section>
+</div>
+<section class="catalog-panel">
+  <div class="panel-heading">
+    <h2>Ventas</h2>
+    <small>{{ resultados.length }} ventas mostradas</small>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID venta</th>
+          <th>Fecha / Hora</th>
+          <th>Cobró</th>
+          <th>Método</th>
+          <th>Estado</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (v of resultados; track v.id) {
+          <tr>
+            <td>#{{ v.id }}</td>
+            <td>{{ v.fecha }} · {{ v.hora }}</td>
+            <td>{{ v.usuario }}</td>
+            <td>{{ v.metodo }}</td>
+            <td><span class="badge">Cobrada</span></td>
+            <td>{{ v.total | currency: 'MXN' : 'symbol-narrow' }}</td>
+            <td><button class="icon-button" (click)="detalle(v, modal)">ⓘ Detalles</button></td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7">No hay ventas de muestra en este periodo.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+<app-modal #modal [titulo]="'Detalle de venta #' + (selected?.id || '')">
+  @if (selected) {
+    <div class="detail-info">
+      <div>
+        <small>Fecha / Hora</small>
+        <p>{{ selected.fecha }} · {{ selected.hora }}</p>
+      </div>
+      <div>
+        <small>Cobró</small>
+        <p>{{ selected.usuario }}</p>
+      </div>
+      <div>
+        <small>Método</small>
+        <p>{{ selected.metodo }}</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>P. unitario</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of selected.items; track $index) {
+            <tr>
+              <td>{{ item[0] }}</td>
+              <td>{{ item[1] }}</td>
+              <td>{{ item[2] | currency: 'MXN' : 'symbol-narrow' }}</td>
+              <td>{{ item[1] * item[2] | currency: 'MXN' : 'symbol-narrow' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="form-actions">
+      <strong>Total: {{ selected.total | currency: 'MXN' : 'symbol-narrow' }}</strong
+      ><button class="boton" disabled title="La impresión se conectará al ticket real">
+        Imprimir ticket</button
+      ><button class="boton boton-contorno" (click)="modal.cerrar()">Cerrar</button>
+    </div>
+  }
+</app-modal>

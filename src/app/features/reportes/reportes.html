@@ -1,0 +1,159 @@
+<div class="titulo-fila">
+  <h1>Reportes de ventas y corte de caja</h1>
+  <button class="boton boton-contorno" (click)="actualizar()" [disabled]="cargando() || ocupado()">
+    Actualizar
+  </button>
+</div>
+<nav class="enlaces-modulos">
+  <a routerLink="/caja">← Volver a caja</a><a routerLink="/productos">Productos</a>
+</nav>
+@if (error()) {
+  <p class="error" role="alert">{{ error() }}</p>
+}
+@if (resultado(); as r) {
+  <div class="exito" role="status">
+    {{ r.mensaje }}
+    @if (r.diferencia !== undefined) {
+      <p>Diferencia final: {{ r.diferencia | currency: 'MXN' : 'symbol-narrow' }}</p>
+    }
+  </div>
+}
+<section class="panel">
+  <div class="resumen-caja">
+    <div>
+      <p class="muted">Estado de caja</p>
+      <h2>
+        {{
+          cargando()
+            ? 'Consultando…'
+            : !caja()
+              ? 'Sin conexión'
+              : caja()?.abierta
+                ? 'Caja abierta'
+                : 'Caja cerrada'
+        }}
+      </h2>
+    </div>
+    <div>
+      <p class="muted">Turno en curso</p>
+      <h2>{{ caja()?.idTurno ? '#' + caja()?.idTurno : 'Sin turno' }}</h2>
+    </div>
+    <div>
+      <p class="muted">Efectivo esperado</p>
+      <h2>{{ caja()?.efectivoEsperado | currency: 'MXN' : 'symbol-narrow' }}</h2>
+    </div>
+  </div>
+  <div class="acciones">
+    <button
+      class="boton"
+      (click)="abrir('entradas')"
+      [disabled]="auth.demo() || !caja()?.abierta || cargando()"
+    >
+      Entrada</button
+    ><button
+      class="boton boton-contorno"
+      (click)="abrir('retiros')"
+      [disabled]="auth.demo() || !caja()?.abierta || cargando()"
+    >
+      Retiro</button
+    ><button
+      class="boton"
+      (click)="abrir('aperturas')"
+      [disabled]="auth.demo() || !caja() || caja()?.abierta || cargando()"
+    >
+      Iniciar caja</button
+    ><button
+      class="boton peligro"
+      (click)="abrir('cierres')"
+      [disabled]="auth.demo() || !caja()?.abierta || cargando()"
+    >
+      Cierre de caja
+    </button>
+  </div>
+</section>
+<section class="panel pendientes">
+  <h2>Historial y estadísticas</h2>
+  <p class="muted">
+    Los reportes históricos y sus filtros están pendientes de implementación. Las operaciones de
+    caja de arriba ya se registran en PostgreSQL.
+  </p>
+</section>
+<app-modal #operacionModal [titulo]="titulos[operacion]" [bloqueado]="ocupado()"
+  ><form (ngSubmit)="guardar()">
+    @switch (operacion) {
+      @case ('aperturas') {
+        <p class="muted">
+          Registra el efectivo inicial para abrir un nuevo turno en esta sucursal.
+        </p>
+      }
+      @case ('entradas') {
+        <p class="muted">Registra dinero adicional que ingresa a la caja e indica el motivo.</p>
+      }
+      @case ('retiros') {
+        <p class="muted">Registra dinero que sale de la caja e indica el motivo.</p>
+      }
+      @case ('cierres') {
+        <p>
+          Efectivo esperado:
+          <strong>{{ caja()?.efectivoEsperado | currency: 'MXN' : 'symbol-narrow' }}</strong>
+        </p>
+        <p class="muted">Cuenta el efectivo físico. El cierre es definitivo.</p>
+      }
+    }
+    <label class="campo"
+      >{{
+        operacion === 'aperturas'
+          ? 'Fondo inicial'
+          : operacion === 'cierres'
+            ? 'Efectivo contado'
+            : 'Importe del movimiento'
+      }}
+      (MXN)<input
+        type="number"
+        name="monto"
+        [(ngModel)]="monto"
+        [min]="operacion === 'entradas' || operacion === 'retiros' ? 0.01 : 0"
+        max="9999999999.99"
+        step="0.01"
+        required
+        [disabled]="ocupado()"
+    /></label>
+    @if (operacion === 'entradas' || operacion === 'retiros') {
+      <label class="campo"
+        >Motivo del movimiento<textarea
+          name="motivo"
+          [(ngModel)]="motivo"
+          rows="3"
+          maxlength="200"
+          required
+          [disabled]="ocupado()"
+        ></textarea>
+      </label>
+    }
+    @if (operacion === 'cierres') {
+      <p class="diferencia">
+        Diferencia prevista: <strong>{{ diferencia() | currency: 'MXN' : 'symbol-narrow' }}</strong>
+      </p>
+    }
+    @if (errorModal()) {
+      <p class="error" role="alert">{{ errorModal() }}</p>
+    }
+    <div class="acciones">
+      <button
+        class="boton boton-contorno"
+        type="button"
+        (click)="operacionModal.cerrar()"
+        [disabled]="ocupado()"
+      >
+        Cancelar</button
+      ><button
+        class="boton"
+        [class.peligro]="operacion === 'cierres' || operacion === 'retiros'"
+        type="submit"
+        [disabled]="ocupado()"
+      >
+        {{ ocupado() ? 'Registrando…' : titulos[operacion] }}
+      </button>
+    </div>
+  </form></app-modal
+>

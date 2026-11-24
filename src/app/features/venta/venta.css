@@ -1,0 +1,71 @@
+.columna-derecha {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.servicio {
+  display: block;
+  width: 100%;
+  padding: 14px 12px;
+  background: var(--suave);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  text-align: left;
+  margin-top: 12px;
+}
+.servicio strong {
+  display: flex;
+  justify-content: space-between;
+}
+.servicio small {
+  background: #eaf2eb;
+  color: var(--verde);
+  padding: 2px 6px;
+  border-radius: 9px;
+  font-size: 10px;
+}
+.servicio small.color {
+  background: #fff2bc;
+  color: #a36100;
+}
+.servicio span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 6px 0;
+}
+.servicio b {
+  color: var(--verde);
+}
+.importe {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.total {
+  border-top: 1px solid var(--borde);
+  padding-top: 12px;
+  align-items: center;
+}
+.total strong:last-child {
+  font-size: 23px;
+}
+.pago label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 10px 0 5px;
+}
+.pago select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--borde);
+  background: var(--suave);
+  border-radius: 7px;
+  color: var(--texto);
+}
+.cobrar {
+  width: 100%;
+  margin-top: 10px;
+}

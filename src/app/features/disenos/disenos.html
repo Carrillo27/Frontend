@@ -1,0 +1,13 @@
+<div class="review-banner">
+  <strong>Diseños en revisión</strong>
+  <span>Datos de muestra · Los cambios no se guardan en el sistema</span>
+  <a routerLink="/caja">Volver a caja</a>
+</div>
+<nav class="review-nav" aria-label="Pantallas en revisión">
+  @for (link of links; track link.path) {
+    <a [routerLink]="link.path" routerLinkActive="active" ariaCurrentWhenActive="location">
+      {{ link.label }}
+    </a>
+  }
+</nav>
+<router-outlet />

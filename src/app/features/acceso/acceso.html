@@ -1,0 +1,74 @@
+<div class="acceso-fondo">
+  <section class="acceso-card" [class.recuperacion]="recuperacion">
+    @if (recuperacion) {
+      <a class="cerrar" routerLink="/login" aria-label="Volver al login">×</a>
+    }
+    <div class="marca">{{ recuperacion ? '⚿' : '∩' }}</div>
+    <h1>{{ recuperacion ? 'Obtener código' : 'Te damos la bienvenida' }}</h1>
+    <p class="subtitulo">
+      {{ recuperacion ? 'Ingresa el código para continuar.' : 'Ingresa tus datos para continuar.' }}
+    </p>
+    <form (ngSubmit)="ingresar()">
+      @if (recuperacion) {
+        <label for="codigo">Código</label>
+        <div class="fila">
+          <input
+            id="codigo"
+            name="codigo"
+            [(ngModel)]="codigo"
+            (ngModelChange)="validado.set(false)"
+            placeholder="Escribe tu código"
+            autocomplete="one-time-code"
+            required
+            maxlength="6"
+          /><button type="button" class="boton boton-contorno" (click)="validar()">Validar</button>
+        </div>
+        <p class="nota">Acceso de demostración. Tu contraseña no cambiará.</p>
+        @if (validado()) {
+          <p class="exito" role="status">Código validado.</p>
+        }
+      } @else {
+        <label for="usuario">Usuario</label
+        ><input
+          id="usuario"
+          name="usuario"
+          [(ngModel)]="username"
+          placeholder="Escribe tu usuario"
+          autocomplete="username"
+          maxlength="40"
+          required
+        />
+        <label for="password">Contraseña</label>
+        <div class="password">
+          <input
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            [type]="visible ? 'text' : 'password'"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            maxlength="200"
+            required
+          /><button
+            type="button"
+            (click)="visible = !visible"
+            [attr.aria-label]="visible ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            ◉
+          </button>
+        </div>
+        <a class="boton boton-contorno obtener" routerLink="/recuperacion">Obtener código</a>
+      }
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+      <button
+        class="boton ingresar"
+        type="submit"
+        [disabled]="ocupado() || (recuperacion && !validado())"
+      >
+        {{ ocupado() ? 'Ingresando…' : 'Iniciar sesión' }}
+      </button>
+    </form>
+  </section>
+</div>
