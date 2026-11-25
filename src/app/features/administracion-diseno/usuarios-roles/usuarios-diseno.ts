@@ -1,4 +1,4 @@
-import { Catalogo } from '../../../shared/catalogo-diseno/catalogo';
+import { Catalogo } from '../../../components/catalogo/catalogo';
 
 export const usuariosDiseno: Catalogo = {
   title: 'Administración',
