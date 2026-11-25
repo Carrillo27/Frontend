@@ -17,26 +17,8 @@
   </p>
 }
 <div class="distribucion-caja">
-  <aside class="panel">
-    <h2>Equipo</h2>
-    <p class="descripcion-panel">Vista de referencia · Rentas pendientes</p>
-    <div class="equipos-grid">
-      @for (n of equipos; track n) {
-        <button
-          class="equipo"
-          disabled
-          [class.en-uso]="n === 2 || n === 3"
-          [class.sin-servicio]="n === 8"
-        >
-          <span class="equipo-nombre"><i class="monitor"></i>PC 0{{ n }}</span
-          ><span>{{ n === 8 ? 'Sin servicio' : n === 2 || n === 3 ? 'En uso' : 'Disponible' }}</span
-          ><small>Ejemplo visual</small>
-        </button>
-      }
-    </div>
-    <p class="nota-panel">La asignación de equipos se implementará en el módulo de rentas.</p>
-  </aside>
-  <section class="panel panel-ticket">
+  <app-panel-equipos class="area-equipos" [equipos]="equipos" />
+  <section class="panel panel-ticket area-ticket">
     <div class="cabecera-ticket">
       <h2>Caja</h2>
       <span class="ticket-activo">t1</span
@@ -151,22 +133,8 @@
       </button>
     </div>
   </section>
-  <aside class="columna-derecha">
-    <section class="panel">
-      <h2>Servicios</h2>
-      <p class="descripcion-panel">Servicios de ejemplo · Próximamente</p>
-      <button class="servicio" disabled>
-        <strong>Copia <small>B/N</small></strong
-        ><span>Carta</span><b>$1.00</b></button
-      ><button class="servicio" disabled>
-        <strong>Impresión <small class="color">Color</small></strong
-        ><span>Carta · Doble cara</span><b>$6.00</b></button
-      ><button class="servicio" disabled>
-        <strong>Impresión <small>B/N</small></strong
-        ><span>Oficio</span><b>$2.00</b>
-      </button>
-      <p class="nota-panel">El cobro de servicios se habilitará con su catálogo.</p>
-    </section>
+  <aside class="columna-derecha area-cobro">
+    <app-panel-servicios [servicios]="servicios" />
     <section class="panel pago">
       <div class="importe">
         <span>Subtotal</span><span>{{ ticket.total() | currency: 'MXN' : 'symbol-narrow' }}</span>

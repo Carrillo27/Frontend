@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+.page-title {
+  margin: 26px 0 32px;
+}
+.page-title p {
+  color: var(--muted);
+  margin: 10px 0;
+  font-size: 13px;
+}
+@media (max-width: 650px) {
+  .page-title {
+    margin: 12px 0 18px;
+  }
+  .page-title p {
+    font-size: 12px;
+  }
+}

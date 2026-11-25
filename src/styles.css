@@ -131,12 +131,6 @@ h2 {
   margin-bottom: 16px;
   font-size: 13px;
 }
-.distribucion-caja {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 250px;
-  gap: 24px;
-  align-items: stretch;
-}
 .panel {
   padding: 20px;
   background: #fff;
@@ -152,64 +146,6 @@ h2 {
   font-size: 11px;
   line-height: 1.6;
   margin: 18px 0 0;
-}
-.equipos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-.equipo {
-  min-height: 100px;
-  padding: 12px 10px;
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  text-align: left;
-  color: var(--texto);
-  background: var(--suave);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 12px;
-  line-height: 1.6;
-}
-.equipo-nombre {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 7px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-.equipo small {
-  font-size: 10px;
-}
-.monitor {
-  display: inline-block;
-  position: relative;
-  width: 18px;
-  height: 13px;
-  border: 1.5px solid #7d9288;
-  border-radius: 2px;
-  margin-bottom: 4px;
-}
-.monitor:after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 4px;
-  width: 8px;
-  height: 4px;
-  border-bottom: 1.5px solid #7d9288;
-}
-.equipo.en-uso {
-  background: #74aaff;
-  border-color: #b1ccf3;
-  color: #193c59;
-}
-.equipo.sin-servicio {
-  background: #f68153;
-  border-color: #efad91;
-  color: #582f1f;
 }
 .panel-ticket {
   min-width: 0;
@@ -510,53 +446,47 @@ fieldset {
   border: 0;
   padding: 0;
 }
+/* ---------- Responsive general ---------- */
 @media (max-width: 1050px) {
-  .distribucion-caja {
-    grid-template-columns: 180px minmax(0, 1fr);
-    gap: 16px;
+  .espacio-venta {
+    padding: 22px 16px;
   }
-  .columna-derecha {
-    grid-column: 1 / -1;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
+  .panel-ticket {
+    min-height: 520px;
   }
 }
 @media (max-width: 650px) {
-  .distribucion-caja {
-    display: flex;
-    flex-direction: column;
-  }
-  .columna-derecha {
-    display: flex !important;
-  }
   .espacio-venta {
-    padding: 20px 12px;
-  }
-  .equipos-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .equipo {
-    padding: 8px 5px;
-    min-height: 85px;
-  }
-  .equipo-nombre {
-    font-size: 10px;
-    gap: 4px;
+    padding: 16px 10px;
   }
   .panel {
-    padding: 15px;
+    padding: 14px;
+    border-radius: 16px;
   }
   .panel-ticket {
-    min-height: 450px;
+    min-height: 0;
+  }
+  .tabla-contenedor {
+    min-height: 200px;
+  }
+  .vacio {
+    min-height: 170px;
+    padding: 16px;
   }
   .titulo-fila {
     align-items: flex-start;
+    flex-wrap: wrap;
   }
   h1 {
-    font-size: 21px;
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 17px;
+  }
+  .descripcion-panel {
+    margin-bottom: 12px;
   }
 }
-
 @media (max-width: 620px) {
   .barra-superior {
     flex-wrap: wrap;
@@ -571,9 +501,14 @@ fieldset {
   .tabla {
     min-width: 420px;
   }
+  .tabla th,
+  .tabla td {
+    padding: 10px 6px;
+  }
   .enlaces-modulos {
     gap: 14px;
     font-size: 11px;
+    padding: 12px 0;
   }
   .folio-ticket {
     display: none;
@@ -583,5 +518,31 @@ fieldset {
   }
   .busqueda-contenedor {
     flex-basis: 100%;
+  }
+  .buscador > .boton {
+    flex: 1;
+  }
+  .sugerencias {
+    width: 100%;
+    max-width: none;
+  }
+  .acciones .boton {
+    flex: 1;
+  }
+}
+@media (max-width: 400px) {
+  body {
+    font-size: 13px;
+  }
+  .boton {
+    padding: 9px 10px;
+  }
+  .ticket-activo,
+  .ticket-pendiente {
+    width: 36px;
+    height: 36px;
+  }
+  .cabecera-ticket h2 {
+    padding: 8px;
   }
 }

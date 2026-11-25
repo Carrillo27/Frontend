@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Modal } from '../../shared/modal';
+import { Modal } from '../../components';
 @Component({
   selector: 'app-historial-ventas-diseno',
   imports: [FormsModule, CurrencyPipe, Modal],
   templateUrl: './historial-ventas.html',
-  styleUrl: '../../shared/estilos-revision.css',
+  styleUrl: '../../components/estilos/estilos-revision.css',
 })
 export class HistorialVentasDiseno {
   inicio = '2026-10-01';

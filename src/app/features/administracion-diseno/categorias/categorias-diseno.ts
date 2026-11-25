@@ -1,56 +1,13 @@
-import { Catalogo } from '../../../shared/catalogo-diseno/catalogo';
+import { Component } from '@angular/core';
+import { CatalogoDiseno, EncabezadoPagina } from '../../../components';
+import { categoriasDiseno } from './categorias-diseno.datos';
 
-export const categoriasDiseno: Catalogo = {
-  title: 'Administración',
-  subtitle: 'Administra tus categorías de productos.',
-  panel: 'Categorías',
-  modal: 'Nueva categoría',
-  note: 'Gestiona y organiza las categorías de la papelería. Facilita la búsqueda y el control del inventario.',
-  fields: [
-    {
-      key: 'nombre',
-      label: 'Nombre de categoría',
-      kind: 'text',
-      options: [],
-    },
-    {
-      key: 'descripcion',
-      label: 'Descripción / Detalle',
-      kind: 'textarea',
-      options: [],
-    },
-    {
-      key: 'estado',
-      label: 'Estado',
-      kind: 'radio',
-      options: ['Activo', 'Inactivo'],
-    },
-  ],
-  rows: [
-    {
-      nombre: 'Papelería y Mercería',
-      descripcion: 'Cuadernos, hojas, lápices…',
-      estado: 'Activo',
-    },
-    {
-      nombre: 'Cómputo y Electrónica',
-      descripcion: 'USB, cables, periféricos…',
-      estado: 'Activo',
-    },
-    {
-      nombre: 'Servicios e Impresiones',
-      descripcion: 'Copias, impresiones, escaneos…',
-      estado: 'Activo',
-    },
-    {
-      nombre: 'Regalos y Envolturas',
-      descripcion: 'Bolsas, papel regalo…',
-      estado: 'Activo',
-    },
-    {
-      nombre: 'Promociones / Varios',
-      descripcion: 'Artículos de temporada',
-      estado: 'Inactivo',
-    },
-  ],
-};
+/** Administración de categorías de productos. */
+@Component({
+  selector: 'app-categorias-diseno',
+  imports: [EncabezadoPagina, CatalogoDiseno],
+  templateUrl: './categorias-diseno.html',
+})
+export class CategoriasDiseno {
+  readonly config = categoriasDiseno;
+}

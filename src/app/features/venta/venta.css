@@ -1,42 +1,31 @@
+/*
+ * Distribución de la caja.
+ *  > 1280 px : computadoras | ticket | cobro
+ *  1051–1280 : columnas laterales más angostas
+ *  651–1050  : computadoras a lo ancho arriba, ticket y cobro abajo
+ *  ≤ 650     : una sola columna (computadoras compactas, ticket, cobro)
+ */
+.distribucion-caja {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 250px;
+  grid-template-areas: 'equipos ticket cobro';
+  gap: 24px;
+  align-items: stretch;
+}
+.area-equipos {
+  grid-area: equipos;
+}
+.area-ticket {
+  grid-area: ticket;
+}
+.area-cobro {
+  grid-area: cobro;
+}
 .columna-derecha {
   display: flex;
   flex-direction: column;
   gap: 18px;
-}
-.servicio {
-  display: block;
-  width: 100%;
-  padding: 14px 12px;
-  background: var(--suave);
-  color: var(--texto);
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  text-align: left;
-  margin-top: 12px;
-}
-.servicio strong {
-  display: flex;
-  justify-content: space-between;
-}
-.servicio small {
-  background: #eaf2eb;
-  color: var(--verde);
-  padding: 2px 6px;
-  border-radius: 9px;
-  font-size: 10px;
-}
-.servicio small.color {
-  background: #fff2bc;
-  color: #a36100;
-}
-.servicio span {
-  display: block;
-  font-size: 11px;
-  color: var(--muted);
-  margin: 6px 0;
-}
-.servicio b {
-  color: var(--verde);
+  min-width: 0;
 }
 .importe {
   display: flex;
@@ -68,4 +57,36 @@
 .cobrar {
   width: 100%;
   margin-top: 10px;
+}
+
+@media (max-width: 1280px) {
+  .distribucion-caja {
+    grid-template-columns: 200px minmax(0, 1fr) 230px;
+    gap: 18px;
+  }
+}
+@media (max-width: 1050px) {
+  .distribucion-caja {
+    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-areas:
+      'equipos equipos'
+      'ticket cobro';
+    gap: 16px;
+  }
+}
+@media (max-width: 650px) {
+  .distribucion-caja {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'equipos'
+      'ticket'
+      'cobro';
+    gap: 12px;
+  }
+  .columna-derecha {
+    gap: 12px;
+  }
+  .total strong:last-child {
+    font-size: 20px;
+  }
 }

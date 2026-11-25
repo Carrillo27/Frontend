@@ -1,0 +1,9 @@
+<dialog #dialog [attr.aria-label]="titulo()" (click)="fuera($event)">
+  <div class="modal-cabecera">
+    <h2>{{ titulo() }}</h2>
+    <button type="button" aria-label="Cerrar ventana" [disabled]="bloqueado()" (click)="cerrar()">
+      ×
+    </button>
+  </div>
+  <ng-content />
+</dialog>

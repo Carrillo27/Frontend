@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
-import { rutaCatalogo } from '../../shared/catalogo-diseno/pagina-catalogo';
 import { HistorialVentasDiseno } from '../historial-ventas-diseno/historial-ventas';
-import { productosDiseno } from '../productos-diseno/productos-diseno';
-import { proveedoresDiseno } from '../proveedores-diseno/proveedores-diseno';
-import { serviciosDiseno } from '../servicios-diseno/servicios-diseno';
+import { ProductosDiseno } from '../productos-diseno/productos-diseno';
+import { ProveedoresDiseno } from '../proveedores-diseno/proveedores-diseno';
+import { ServiciosDiseno } from '../servicios-diseno/servicios-diseno';
 import { Disenos } from './disenos';
 
 export const DISENO_ROUTES: Routes = [
@@ -11,10 +10,10 @@ export const DISENO_ROUTES: Routes = [
     path: '',
     component: Disenos,
     children: [
-      rutaCatalogo('servicios', serviciosDiseno),
+      { path: 'servicios', component: ServiciosDiseno },
       { path: 'ventas', component: HistorialVentasDiseno },
-      rutaCatalogo('productos', productosDiseno),
-      rutaCatalogo('proveedores', proveedoresDiseno),
+      { path: 'productos', component: ProductosDiseno },
+      { path: 'proveedores', component: ProveedoresDiseno },
       {
         path: 'administracion',
         loadChildren: () =>

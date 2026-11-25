@@ -5,9 +5,9 @@ import { RouterLink } from '@angular/router';
 import { Api, Producto, Resultado, mensajeError } from '../../core/api';
 import { Auth } from '../../core/auth';
 import { Ticket } from '../../core/ticket';
-import { Modal } from '../../shared/modal';
+import { EquipoComputo, Modal, PanelEquipos, PanelServicios, ServicioCaja } from '../../components';
 @Component({
-  imports: [CurrencyPipe, FormsModule, Modal, RouterLink],
+  imports: [CurrencyPipe, FormsModule, Modal, PanelEquipos, PanelServicios, RouterLink],
   templateUrl: './venta.html',
   styleUrl: './venta.css',
 })
@@ -24,7 +24,25 @@ export class Venta implements OnDestroy {
   buscando = signal(false);
   ocupado = signal(false);
   recibo = signal<Resultado | null>(null);
-  equipos = [1, 2, 3, 4, 5, 6, 7, 8];
+  /** Computadoras de muestra mientras se conecta el módulo de rentas. */
+  equipos: EquipoComputo[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
+    (n): EquipoComputo => ({
+      nombre: 'PC 0' + n,
+      estado: n === 8 ? 'Sin servicio' : n === 2 || n === 3 ? 'En uso' : 'Disponible',
+    }),
+  );
+  /** Servicios de muestra mientras se conecta su catálogo. */
+  servicios: ServicioCaja[] = [
+    { nombre: 'Copia', etiqueta: 'B/N', detalle: 'Carta', precio: 1 },
+    {
+      nombre: 'Impresión',
+      etiqueta: 'Color',
+      color: true,
+      detalle: 'Carta · Doble cara',
+      precio: 6,
+    },
+    { nombre: 'Impresión', etiqueta: 'B/N', detalle: 'Oficio', precio: 2 },
+  ];
   private timer?: ReturnType<typeof setTimeout>;
   private secuencia = 0;
   programar() {

@@ -1,0 +1,11 @@
+<section [attr.aria-label]="config.title">
+  <app-encabezado-pagina [titulo]="config.title" [subtitulo]="config.subtitle" />
+  <app-panel-equipos
+    class="vista-computadoras"
+    titulo="Computadoras"
+    descripcion="Vista rápida de los equipos registrados"
+    nota=""
+    [equipos]="computadoras"
+  />
+  <app-catalogo-diseno [config]="config" />
+</section>

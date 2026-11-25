@@ -1,0 +1,30 @@
+<aside class="panel panel-equipos" aria-labelledby="titulo-equipos">
+  <div class="cabecera-equipos">
+    <div>
+      <h2 id="titulo-equipos">{{ titulo() }}</h2>
+      <p class="descripcion-panel">{{ descripcion() }}</p>
+    </div>
+    <p class="resumen-equipos">
+      <span class="punto disponible"></span>{{ disponibles() }} libres
+      <span class="punto en-uso"></span>{{ enUso() }} en uso
+    </p>
+  </div>
+  <div class="equipos-grid">
+    @for (e of equipos(); track e.nombre) {
+      <button
+        class="equipo"
+        disabled
+        [class.en-uso]="e.estado === 'En uso'"
+        [class.sin-servicio]="e.estado === 'Sin servicio'"
+        [attr.aria-label]="e.nombre + ': ' + e.estado"
+      >
+        <span class="equipo-nombre"><i class="monitor"></i>{{ e.nombre }}</span>
+        <span class="equipo-estado">{{ e.estado }}</span>
+        <small>Ejemplo visual</small>
+      </button>
+    }
+  </div>
+  @if (nota()) {
+    <p class="nota-panel">{{ nota() }}</p>
+  }
+</aside>

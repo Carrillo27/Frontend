@@ -1,0 +1,11 @@
+.dual {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 24px;
+}
+@media (max-width: 1100px) {
+  .dual {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}

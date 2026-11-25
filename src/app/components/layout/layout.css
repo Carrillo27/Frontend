@@ -1,0 +1,138 @@
+.perfil-trigger {
+  border: 0;
+  background: transparent;
+  color: var(--texto);
+  cursor: pointer;
+  text-align: left;
+}
+.perfil {
+  position: fixed;
+  inset: 12px auto auto 12px;
+  margin: 0;
+  width: min(330px, calc(100vw - 24px));
+  min-height: 470px;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 0;
+  color: var(--texto);
+  box-shadow: 0 12px 35px #203b3120;
+}
+.perfil::backdrop {
+  background: transparent;
+}
+.perfil-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--borde);
+}
+small {
+  display: block;
+  font-size: 11px;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.etiqueta {
+  font-size: 10px;
+  font-weight: bold;
+  margin: 14px 16px 5px;
+  color: var(--muted);
+}
+.perfil a,
+.perfil > button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  color: var(--texto);
+  text-align: left;
+  text-decoration: none;
+  border: 0;
+  border-bottom: 1px solid #eef2ef;
+  background: white;
+  font-size: 13px;
+}
+.perfil a:hover {
+  background: var(--suave);
+}
+.perfil a div,
+.perfil button div {
+  flex: 1;
+}
+.perfil a > span,
+.perfil button > span {
+  background: #edf4ef;
+  border-radius: 7px;
+  padding: 7px;
+  color: var(--verde);
+}
+.cerrar {
+  border: 0;
+  background: transparent;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 22px;
+}
+.pie {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: #edf4ef;
+  color: var(--muted);
+  font-size: 11px;
+}
+.acceso-disenos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background: #edf4ef;
+}
+.perfil {
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+}
+@media (max-width: 650px) {
+  .acceso-disenos {
+    padding: 12px;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .acceso-disenos small {
+    display: none;
+  }
+  .acceso-disenos .boton {
+    width: 100%;
+  }
+  .pie {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+}
+@media (max-width: 600px) {
+  .fecha-actual,
+  .perfil-trigger .muted {
+    display: none;
+  }
+  .barra-superior {
+    padding: 12px;
+    gap: 8px;
+    min-height: 60px;
+  }
+  .barra-superior .boton {
+    padding: 8px 10px;
+    min-height: 36px;
+  }
+  .icono-usuario {
+    width: 32px;
+    height: 32px;
+  }
+}

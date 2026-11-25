@@ -54,8 +54,8 @@ En demostración puedes navegar, abrir ventanas y probar las interacciones de la
 ## Estructura
 
 ```text
-src/app/features/   Pantallas y módulos
-src/app/shared/     Componentes y estilos compartidos
+src/app/features/   Pantallas y módulos (cada pantalla con su .ts, .html y datos .datos.ts)
+src/app/components/ Todos los componentes reutilizables, uno por carpeta (.ts, .html, .css)
 src/app/core/       Estado del navegador y cliente de la API
 public/            Recursos estáticos
 angular.json       Configuración de Angular
@@ -63,6 +63,24 @@ package.json       Scripts y dependencias
 package-lock.json  Versiones exactas de las dependencias
 proxy.conf.json    Configuración de conexión opcional a la API
 ```
+
+### Componentes (`src/app/components`)
+
+Se importan desde un solo punto: `import { Modal, PanelEquipos } from '../../components';`
+
+| Carpeta | Componente | Uso |
+| --- | --- | --- |
+| `layout/` | `Layout` | Barra superior, menú de perfil y pie |
+| `modal/` | `Modal` | Ventanas emergentes |
+| `encabezado-pagina/` | `EncabezadoPagina` | Título y subtítulo de pantallas |
+| `catalogo/` | `CatalogoDiseno` | Tabla, búsqueda y formulario de catálogos |
+| `panel-equipos/` | `PanelEquipos` | Computadoras de la caja y de administración |
+| `panel-servicios/` | `PanelServicios` | Servicios rápidos de la caja |
+| `estilos/` | — | Estilos compartidos de las pantallas de diseño |
+
+### Responsive
+
+La interfaz se adapta a escritorio, tablet y celular. La caja pasa de tres columnas a computadoras arriba con ticket y cobro abajo (≤ 1050 px) y a una sola columna (≤ 650 px). El panel de computadoras ajusta sus columnas según el espacio que tiene (2 en la barra lateral, 4 u 8 a lo ancho y tarjetas compactas en celular).
 
 ## Compilar
 

@@ -1,0 +1,201 @@
+:host {
+  display: block;
+  min-width: 0;
+  container-type: inline-size;
+  container-name: equipos;
+}
+.panel-equipos {
+  height: 100%;
+}
+.cabecera-equipos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4px 16px;
+}
+.resumen-equipos {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 4px 0 12px;
+  white-space: nowrap;
+}
+.punto {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-left: 6px;
+}
+.punto.disponible {
+  background: var(--borde);
+  border: 1px solid #b9c8bf;
+}
+.punto.en-uso {
+  background: #74aaff;
+}
+.equipos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.equipo {
+  min-width: 0;
+  min-height: 100px;
+  padding: 12px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  text-align: left;
+  color: var(--texto);
+  background: var(--suave);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.equipo-nombre {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+  font-weight: bold;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.equipo-estado {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.equipo small {
+  font-size: 10px;
+  color: inherit;
+  opacity: 0.8;
+}
+.monitor {
+  flex: none;
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 13px;
+  border: 1.5px solid #7d9288;
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+.monitor:after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 4px;
+  width: 8px;
+  height: 4px;
+  border-bottom: 1.5px solid #7d9288;
+}
+.equipo.en-uso {
+  background: #74aaff;
+  border-color: #b1ccf3;
+  color: #193c59;
+}
+.equipo.sin-servicio {
+  background: #f68153;
+  border-color: #efad91;
+  color: #582f1f;
+}
+.equipo.en-uso .monitor,
+.equipo.en-uso .monitor:after {
+  border-color: #193c59;
+}
+.equipo.sin-servicio .monitor,
+.equipo.sin-servicio .monitor:after {
+  border-color: #582f1f;
+}
+
+/* Barra lateral angosta (≈ 180–210 px): tarjetas compactas. */
+@container equipos (max-width: 230px) {
+  .equipos-grid {
+    gap: 6px;
+  }
+  .equipo {
+    min-height: 76px;
+    padding: 8px 6px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .equipo-nombre {
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+  .monitor {
+    width: 14px;
+    height: 10px;
+  }
+  .monitor:after {
+    left: 3px;
+    width: 6px;
+  }
+  .equipo small {
+    display: none;
+  }
+}
+
+/* Panel a lo ancho (tablet): 4 columnas y resumen visible. */
+@container equipos (min-width: 420px) {
+  .equipos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .resumen-equipos {
+    display: flex;
+  }
+  .nota-panel {
+    margin-top: 12px;
+  }
+}
+
+/* Panel muy ancho: las 8 computadoras en una sola fila. */
+@container equipos (min-width: 880px) {
+  .equipos-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .equipo {
+    min-height: 84px;
+  }
+}
+
+/* Teléfonos: 3 o 4 columnas pequeñas en lugar de tarjetas grandes. */
+@media (max-width: 650px) {
+  .equipos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+    gap: 6px;
+  }
+  .equipo {
+    min-height: 64px;
+    padding: 7px 6px;
+    font-size: 10px;
+    line-height: 1.35;
+    align-items: center;
+    text-align: center;
+  }
+  .equipo-nombre {
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+    font-size: 11px;
+  }
+  .equipo small {
+    display: none;
+  }
+  .descripcion-panel {
+    margin-bottom: 8px;
+  }
+  .nota-panel {
+    display: none;
+  }
+}

@@ -1,0 +1,17 @@
+<section class="panel">
+  <h2>Servicios</h2>
+  <p class="descripcion-panel">{{ descripcion() }}</p>
+  <div class="lista-servicios">
+    @for (s of servicios(); track s.nombre + s.etiqueta + s.detalle) {
+      <button class="servicio" disabled>
+        <strong
+          >{{ s.nombre }} <small [class.color]="s.color">{{ s.etiqueta }}</small></strong
+        ><span>{{ s.detalle }}</span
+        ><b>{{ s.precio | currency: 'MXN' : 'symbol-narrow' }}</b>
+      </button>
+    }
+  </div>
+  @if (nota()) {
+    <p class="nota-panel">{{ nota() }}</p>
+  }
+</section>

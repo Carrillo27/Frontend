@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Api, Producto, mensajeError } from '../../core/api';
 import { Auth } from '../../core/auth';
-import { Modal } from '../../shared/modal';
+import { Modal } from '../../components';
 @Component({
   imports: [CurrencyPipe, FormsModule, RouterLink, Modal],
   templateUrl: './productos.html',

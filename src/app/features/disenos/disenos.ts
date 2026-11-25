@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   selector: 'app-disenos',
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './disenos.html',
-  styleUrl: '../../shared/estilos-revision.css',
+  styleUrl: '../../components/estilos/estilos-revision.css',
 })
 export class Disenos {
   readonly links = [

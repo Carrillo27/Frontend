@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { sesionGuard } from './core/auth';
-import { Layout } from './shared/layout';
+import { Layout } from './components/layout/layout';
 export const routes: Routes = [
   { path: 'login', loadComponent: () => import('./features/acceso/acceso').then((m) => m.Acceso) },
   {

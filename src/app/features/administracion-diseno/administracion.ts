@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   selector: 'app-administracion-diseno',
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './administracion.html',
-  styleUrl: '../../shared/estilos-revision.css',
+  styleUrl: '../../components/estilos/estilos-revision.css',
 })
 export class AdministracionDiseno {
   readonly tabs = [

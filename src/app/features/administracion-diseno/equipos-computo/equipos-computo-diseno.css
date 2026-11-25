@@ -1,0 +1,8 @@
+.vista-computadoras {
+  margin-bottom: 24px;
+}
+@media (max-width: 650px) {
+  .vista-computadoras {
+    margin-bottom: 14px;
+  }
+}
